@@ -16,7 +16,27 @@
 | Julio José Orellana Ruíz | 201908120 |
 
 ---
+# Creación de una VPN
 
+### Pasos
+
+- Se creó una VM en GCP con SO Ubuntu.
+- Se actualizaron paquetes sudo apt-get update
+- Se instaló Open VPN con el siguiente script
+
+```bash
+curl -O **[https://raw.githubusercontent.com/angristan/openvpn-install/master/openvpn-install.sh](https://raw.githubusercontent.com/angristan/openvpn-install/master/openvpn-install.sh)** chmod +x openvpn-install.sh
+```
+
+- Se configura la VPN con las ip´s publicas y privadas de la VM y todo lo demás se deja por default.
+- Se crean los clientes (en nuestro caso sin contraseña y se descarga cada uno de los archivos que se generan)
+- Cada cliente descarga OpenVPN connect para poder ejecutar el archivo que se generó desde el server.
+
+![](/Img/vp1.png)
+
+![](/Img/vp2.png)
+
+---
 
 ### Detalles de VLAN
 
@@ -283,5 +303,207 @@ sh vlan-sw
 ![elementos](https://github.com/MarvEdCV/Redes-1-Proyecto-1-G11/blob/main/Img/T1_14.jpg)
 
 ---
+# Topología 3
 
+![](/Img/Topo.png)
+
+| --- | --- | --- | --- | --- |
+
+## Configuración clientes
+
+### ESW8
+
+Configuración vtp
+
+```bash
+conf t
+vtp domain Grupo11
+vtp password Grupo11
+vtp version 2
+vtp mode client
+exit
+sh vtp st
+```
+
+![](/Img/TP3_0.png)
+
+Configuración modo troncal
+
+```bash
+conf t
+int f1/1
+switchport mode trunk
+switchport trunk allowed vlan 1,10,20,30,40,1002-1005
+exit
+
+int f1/2
+switchport mode trunk
+switchport trunk allowed vlan 1,10,20,30,40,1002-1005
+exit
+
+exit
+write
+sh int tr
+```
+
+![](/Img/TP3_1.png)
+
+Configuración modo de acceso
+
+```bash
+conf t
+int f1/0
+switchport mode access
+switchport access vlan 40
+exit
+exit
+sh vlan-sw
+```
+
+### ESW9
+
+Configuración vtp
+
+```bash
+conf t
+vtp domain Grupo11
+vtp password Grupo11
+vtp version 2
+vtp mode client
+exit
+sh vtp st
+```
+
+Configuración modo troncal
+
+```bash
+conf t
+int f1/0
+switchport mode trunk
+switchport trunk allowed vlan 1,10,20,30,40,1002-1005
+exit
+
+int f1/1
+switchport mode trunk
+switchport trunk allowed vlan 1,10,20,30,40,1002-1005
+exit
+
+int f1/2
+switchport mode trunk
+switchport trunk allowed vlan 1,10,20,30,40,1002-1005
+exit
+
+exit
+write
+sh int tr
+```
+
+Configuración modo de acceso
+
+```bash
+conf t
+int f1/3
+switchport mode access
+switchport access vlan 30
+exit
+exit
+sh vlan-sw
+```
+
+### ESW10
+
+Configuración vtp
+
+```bash
+conf t
+vtp domain Grupo11
+vtp password Grupo11
+vtp version 2
+vtp mode client
+exit
+sh vtp st
+```
+
+Configuración modo troncal
+
+```bash
+conf t
+int f1/0
+switchport mode trunk
+switchport trunk allowed vlan 1,10,20,30,40,1002-1005
+exit
+
+int f1/2
+switchport mode trunk
+switchport trunk allowed vlan 1,10,20,30,40,1002-1005
+exit
+
+exit
+write
+sh int tr
+
+```
+
+Configuración modo de acceso
+
+```bash
+conf t
+int f1/1
+switchport mode access
+switchport access vlan 10
+exit
+exit
+sh vlan-sw
+```
+
+### ESW11
+
+Configuración vtp
+
+```bash
+conf t
+vtp domain Grupo11
+vtp password Grupo11
+vtp version 2
+vtp mode client
+exit
+sh vtp st
+```
+
+Configuración modo troncal
+
+```bash
+conf t
+int f1/1
+switchport mode trunk
+switchport trunk allowed vlan 1,10,20,30,40,1002-1005
+exit
+
+int f1/2
+switchport mode trunk
+switchport trunk allowed vlan 1,10,20,30,40,1002-1005
+exit
+
+exit
+write
+sh int tr
+
+```
+
+Configuración modo de acceso
+
+```bash
+conf t
+int f1/0
+switchport mode access
+switchport access vlan 20
+exit
+exit
+sh vlan-sw
+```
+
+## **Configuración de conexión con Topología 2**
+
+![](/Img/config_tpl2.png)
+---
 
