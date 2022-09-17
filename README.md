@@ -303,6 +303,102 @@ sh vlan-sw
 ![elementos](https://github.com/MarvEdCV/Redes-1-Proyecto-1-G11/blob/main/Img/T1_14.jpg)
 
 ---
+## Topología 2
+![elementos](https://github.com/MarvEdCV/Redes-1-Proyecto-1-G11/blob/main/Img/TP2.png)
+
+| VPCS | IP | Mascara de subred | Gateway | Comando |
+| ------ |------ |------ |------ | ------ |
+| Informatica_2 | 192.168.112.20 | 255.255.255.0 | 192.168.112.1 | ip 192.168.112.20 255.255.255.0 192.168.112.2 |
+### Configuración de ip de Informatica 2
+![elementos](https://github.com/MarvEdCV/Redes-1-Proyecto-1-G11/blob/main/Img/TP2_0.png)
+### Server ESW4
+#### Configuración VLANS 10,20,30,40
+```
+conf t
+vlan 10
+name RRHH
+exit
+vlan 20
+name Informatica
+exit
+vlan 30
+name Contabilidad
+exit
+vlan 40
+name Ventas
+exit
+do sh vlan-sw
+exit
+```
+![elementos](https://github.com/MarvEdCV/Redes-1-Proyecto-1-G11/blob/main/Img/TP2_1.png)
+### Configuración  VTP
+
+```
+conf t
+vtp domain GRUPO11
+vtp password grupo11
+vtp mode server
+vtp version 2
+exit
+sh vtp st
+```
+
+![elementos](https://github.com/MarvEdCV/Redes-1-Proyecto-1-G11/blob/main/Img/TP2_2.png)
+
+### Configuración Modol Troncal
+```
+conf t
+int f1/3
+switchport mode trunk
+switchport trunk allowed vlan 1,10,20,30,40,1002-1005
+exit
+int f1/5
+switchport mode trunk
+switchport trunk allowed vlan 1,10,20,30,40,1002-1005
+exit
+exit
+write
+sh int tr
+```
+
+![elementos](https://github.com/MarvEdCV/Redes-1-Proyecto-1-G11/blob/main/Img/TP2_3.png)
+
+### Configuración modo Cliente
+```
+conf t
+vtp domain GRUPO12
+vtp password grupo12
+vtp mode client
+exit
+sh vtp st
+```
+#### ESW5
+![elementos](https://github.com/MarvEdCV/Redes-1-Proyecto-1-G11/blob/main/Img/TP2_5.png)
+#### Configuración Modol Troncal
+
+![elementos](https://github.com/MarvEdCV/Redes-1-Proyecto-1-G11/blob/main/Img/TP2_4.png)
+
+#### ESW6
+
+![elementos](https://github.com/MarvEdCV/Redes-1-Proyecto-1-G11/blob/main/Img/TP2_6.png)
+
+#### Configuración Modol Troncal
+
+![elementos](https://github.com/MarvEdCV/Redes-1-Proyecto-1-G11/blob/main/Img/TP2_7.png)
+
+#### ESW7
+![elementos](https://github.com/MarvEdCV/Redes-1-Proyecto-1-G11/blob/main/Img/TP2_8.png)
+
+#### Configuración Modol Troncal
+
+![elementos](https://github.com/MarvEdCV/Redes-1-Proyecto-1-G11/blob/main/Img/TP2_9.png)
+#### Configuración modo de acceso
+![elementos](https://github.com/MarvEdCV/Redes-1-Proyecto-1-G11/blob/main/Img/TP2_10.png)
+
+
+
+
+---
 # Topología 3
 
 ![](/Img/Topo.png)
